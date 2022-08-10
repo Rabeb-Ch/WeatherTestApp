@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CurrentWeather" representedClassName="CurrentWeather" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="dt" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="main" optional="YES" attributeType="String"/>
+        <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
+        <relationship name="daily" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="DailyWeather"/>
+        <relationship name="hourly" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="HourlyWeather"/>
+    </entity>
+    <entity name="DailyWeather" representedClassName="DailyWeather" syncable="YES" codeGenerationType="class">
+        <attribute name="dt" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="maxTemperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minTemperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="HourlyWeather" representedClassName="HourlyWeather" syncable="YES" codeGenerationType="class">
+        <attribute name="dt" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Town" representedClassName="Town" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="current" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CurrentWeather"/>
+    </entity>
+    <elements>
+        <element name="Town" positionX="-63" positionY="-18" width="128" height="59"/>
+        <element name="CurrentWeather" positionX="-63" positionY="-9" width="128" height="179"/>
+        <element name="HourlyWeather" positionX="-54" positionY="54" width="128" height="74"/>
+        <element name="DailyWeather" positionX="-36" positionY="63" width="128" height="89"/>
+    </elements>
+</model>

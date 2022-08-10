@@ -1,0 +1,16 @@
+PODS:
+  - WeatherAPIComponent (1.0.0)
+
+DEPENDENCIES:
+  - WeatherAPIComponent
+
+SPEC REPOS:
+  trunk:
+    - WeatherAPIComponent
+
+SPEC CHECKSUMS:
+  WeatherAPIComponent: d49a8c6c2b7e45cc66394ab4dd67e90a4666ef56
+
+PODFILE CHECKSUM: bed48b31dfc326a44ab02651b78e08b418c2a00e
+
+COCOAPODS: 1.11.3
