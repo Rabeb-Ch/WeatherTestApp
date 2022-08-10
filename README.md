@@ -1,5 +1,5 @@
 # WeatherTestApp
-WeatherTestApp is an iOS application that displays the weather information for different cities.
+WeatherTestApp is an iOS application that fetches weather information,from WeatherAPIComponent frameworkfor, and displays them for the different cities.
 
 # ScreenShots
 
