@@ -22,7 +22,7 @@ class HourlyTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func setUpCollectionView(){
-        hourlyCollectionView.register(UINib(nibName: "HourlyCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HourlyCollectionViewCell")
+        hourlyCollectionView.register(UINib(nibName: K.Identifiers.hourlyCollectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: K.Identifiers.hourlyCollectionCellIdentifier)
         hourlyCollectionView.delegate = self
         hourlyCollectionView.dataSource = self
         hourlyCollectionView.backgroundColor = .clear
@@ -37,7 +37,7 @@ class HourlyTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyCollectionViewCell", for: indexPath) as! HourlyCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.Identifiers.hourlyCollectionCellIdentifier, for: indexPath) as! HourlyCollectionViewCell
         cell.configure(hourlyWeather[indexPath.row])
         return cell
     }

@@ -15,7 +15,8 @@ struct TownTableViewCellVM {
     
     init(_ name:String?,withDelete:Bool){
         self.townName = name ?? ""
-        self.accessoryImageName = withDelete ? "trash" : "plus.circle"
+        let isLocationCell = self.townName == K.Titles.currentLocation
+        self.accessoryImageName =  isLocationCell ? K.Images.location : withDelete ? K.Images.trash : K.Images.plus
         self.withDelete = withDelete
     }
     

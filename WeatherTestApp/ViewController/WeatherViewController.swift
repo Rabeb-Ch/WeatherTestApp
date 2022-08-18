@@ -23,19 +23,19 @@ class WeatherViewController: UIViewController {
     
     // MARK: Register tableView cells
     func registerCells(){
-        weatherTableView.register(UINib(nibName: "HeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "HeaderTableViewCell")
-        weatherTableView.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "WeatherTableViewCell")
-        weatherTableView.register(UINib(nibName: "HourlyTableViewCell", bundle: nil), forCellReuseIdentifier: "HourlyTableViewCell")
+        weatherTableView.register(UINib(nibName: K.Identifiers.headerTableViewCell, bundle: nil), forCellReuseIdentifier: K.Identifiers.headerTableViewCell)
+        weatherTableView.register(UINib(nibName: K.Identifiers.weatherTableViewCell, bundle: nil), forCellReuseIdentifier: K.Identifiers.weatherTableViewCell)
+        weatherTableView.register(UINib(nibName: K.Identifiers.hourlyTableViewCell, bundle: nil), forCellReuseIdentifier: K.Identifiers.hourlyTableViewCell)
     }
     
     func customBackBtn(){
-        let menuItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .done, target: self, action:  #selector(self.goBackHome(_:)))
+        let menuItem = UIBarButtonItem(image: UIImage(systemName: K.Images.chevronBackward), style: .done, target: self, action:  #selector(self.goBackHome(_:)))
         self.navigationItem.leftBarButtonItem =   menuItem
     }
     
     @objc func goBackHome(_ sender: UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name:"Main", bundle: nil)
-        let townListVC = storyBoard.instantiateViewController(withIdentifier: "TownListViewController") as! TownListViewController
+        let townListVC = storyBoard.instantiateViewController(withIdentifier: K.Identifiers.townListViewController) as! TownListViewController
         self.navigationController?.pushViewController(townListVC,animated:true)
     }
     
@@ -61,7 +61,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderTableViewCell") as! HeaderTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifiers.headerTableViewCell) as! HeaderTableViewCell
             cell.headerViewCellVM = HeaderTableViewCellVM(currentWeather: self.currentWeather)
             cell.configureHeaderCell()
             return cell.contentView
@@ -71,12 +71,12 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HourlyTableViewCell") as! HourlyTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifiers.hourlyTableViewCell) as! HourlyTableViewCell
             let hourlyWeather = currentWeather?.hourly ?? []
             cell.hourlyWeather = hourlyWeather.array as! [HourlyWeather]
             return cell
         }else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherTableViewCell") as! WeatherTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifiers.weatherTableViewCell) as! WeatherTableViewCell
             let dailyWeatherSet = currentWeather?.daily ?? []
             let dailyWeather = dailyWeatherSet.array as! [DailyWeather]
             cell.weatherCellVM = WeatherTableViewCellVM(dailyWeather[indexPath.row])

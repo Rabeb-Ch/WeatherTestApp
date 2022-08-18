@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreData
+import CoreLocation
 import WeatherAPIComponent
 
 class DataBaseHelper {
@@ -44,6 +45,25 @@ class DataBaseHelper {
         return []
     }
     
+    func fetchTown(WithCoord: CLLocationCoordinate2D) -> Town?{
+        let fetchRequest = Town.fetchRequest()
+
+        do {
+            let response = try context.fetch(fetchRequest)
+            let lat = WithCoord.latitude.getFormattedValue()
+            let lon = WithCoord.longitude.getFormattedValue()
+            
+            let resp = response.filter {$0.current?.lat.getFormattedValue() ==  lat
+                && $0.current?.lon.getFormattedValue() == lon
+            }
+            if (resp.count > 0){
+                return resp.first!
+            }
+        } catch {
+            print("Error fetching Towns")
+        }
+        return nil
+    }
     func deleteTown(town : Town){
         context.delete(town)
         do {

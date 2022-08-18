@@ -6,24 +6,41 @@
 //
 
 import UIKit
+import Combine
 
 class AddTownViewController: UIViewController {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var townListTableView : UITableView!
     
-    private var townList : [String] = []
+    private var townList : [String] = [K.Titles.currentLocation]
     private var isSelected : Bool = false
     
     private let addTownVM : AddTownViewModel? = AddTownViewModel()
+    private var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        townListTableView.register(UINib(nibName: "TownTableViewCell", bundle: nil), forCellReuseIdentifier: "TownTableViewCell")
+        townListTableView.register(UINib(nibName: K.Identifiers.townTableViewCell, bundle: nil), forCellReuseIdentifier: K.Identifiers.townTableViewCell)
+        
+        addTownVM?.$isNewTownAdded
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isNewTownAdded in
+                if let _isNewTownAdded = isNewTownAdded {
+                    if _isNewTownAdded {
+                        self?.performSegue(withIdentifier: K.Segue.weatherViewController, sender: nil)
+                    }else{
+                        self?.showAlertWith(msg: "Location already added")
+                    }
+                    
+                    self?.isSelected = false
+                }
+            }
+            .store(in: &subscriptions)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "WeatherViewController"){
+        if (segue.identifier == K.Segue.weatherViewController){
             let  destinationVC = segue.destination as! WeatherViewController
             //Get last added town to show its data
             let town = DataBaseHelper.sharedInstance.fetchTowns().last!
@@ -44,7 +61,8 @@ extension AddTownViewController: UISearchBarDelegate {
     }
     
     func searchTownWith(prefix:String){
-        townList = addTownVM?.searchTownWith(prefix: prefix) ?? []
+        townList = [K.Titles.currentLocation]
+        townList.append(contentsOf: addTownVM?.searchTownWith(prefix: prefix) ?? [])
         updateTableView()
     }
 }
@@ -56,7 +74,7 @@ extension AddTownViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TownTableViewCell") as! TownTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifiers.townTableViewCell) as! TownTableViewCell
         cell.townVM = TownTableViewCellVM(townList[indexPath.row],withDelete: false)
         cell.configure()
         return cell
@@ -71,13 +89,14 @@ extension AddTownViewController : UITableViewDelegate, UITableViewDataSource {
             return
         }
         isSelected = true
-        self.addTownVM?.addTown(townList[indexPath.row]){ [weak self] succ in
-            if succ {
-                DispatchQueue.main.async {
-                    self?.performSegue(withIdentifier: "WeatherViewController", sender: nil)
+        if indexPath.row == 0 {
+            self.addTownVM?.getCurrentLocation()
+        }else{
+            self.addTownVM?.addTown(townList[indexPath.row]){ [weak self] succ in
+                if !succ {
+                    self?.isSelected = false
+                    self?.showAlertWith(msg: "Town already added")
                 }
-            }else{
-                self?.isSelected = false
             }
         }
     }

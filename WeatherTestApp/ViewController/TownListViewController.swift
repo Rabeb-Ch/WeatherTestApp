@@ -17,7 +17,7 @@ class TownListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        townListTableView.register(UINib(nibName: "TownTableViewCell", bundle: nil), forCellReuseIdentifier: "TownTableViewCell")
+        townListTableView.register(UINib(nibName: K.Identifiers.townTableViewCell, bundle: nil), forCellReuseIdentifier: K.Identifiers.townTableViewCell)
         self.navigationItem.setHidesBackButton(true, animated: true)
     }
     
@@ -42,7 +42,7 @@ extension TownListViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TownTableViewCell") as! TownTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifiers.townTableViewCell) as! TownTableViewCell
         cell.townVM = TownTableViewCellVM(townList[indexPath.row].name,withDelete: true)
         cell.configure()
         cell.deleteBtn.addTarget(self, action: #selector(deleteTown), for: .touchUpInside)
@@ -51,7 +51,7 @@ extension TownListViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "WeatherViewController", sender: townList[indexPath.row])
+        self.performSegue(withIdentifier: K.Segue.weatherViewController, sender: townList[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -60,7 +60,7 @@ extension TownListViewController : UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "WeatherViewController"){
+        if (segue.identifier == K.Segue.weatherViewController){
             let  destinationVC = segue.destination as! WeatherViewController
             let town = sender as? Town
             destinationVC.currentWeather = town?.current
