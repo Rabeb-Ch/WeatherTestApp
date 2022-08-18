@@ -22,10 +22,13 @@ WeatherTestApp is an iOS application that fetches weather information,from Weath
 # Technologies Used
 * Swift, UIKit
 * CoreData
+* CoreLocation
+* Combine
 * Storyboards & XIB
 
 # Skills Demonstrated
 * MVVM Pattern
+* Reactive programming
 * Closures
 * API Integration
 * Error Handling
